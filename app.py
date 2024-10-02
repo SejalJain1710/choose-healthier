@@ -3,6 +3,7 @@ import requests
 from dotenv import load_dotenv
 import os
 import pandas as pd
+import random  # Import random module
  
  
 def generate_health_analysis_gemini(product_name, user_preferences=None, order_history=None):
@@ -201,13 +202,14 @@ if grocery_store:
 else:
     product_names = []
  
-# Automatically add selected products to the cart
+# Automatically update cart based on selected products
 selected_products = st.multiselect("Select product(s):", product_names, default=None)
  
-# Automatically update cart based on selected products
-for product in selected_products:
-    if (grocery_store, product) not in st.session_state.cart:
-        st.session_state.cart.append((grocery_store, product))
+# Add selected products to cart and remove deselected products
+updated_cart = [(grocery_store, product) for product in selected_products]
+ 
+# Update cart session state
+st.session_state.cart = updated_cart
  
 # Display the cart
 if st.session_state.cart:
@@ -242,12 +244,16 @@ if st.button("Analyze Cart and Suggest Healthier Options"):
                 with st.expander(f"Evaluation for: {product}"):
                     st.write(evaluation_text)
  
-                current_score = 5  # Placeholder for current health score from evaluation
+                current_score = random.randint(3, 7)  # Random score between 3 and 7
                 health_scores.append(current_score)
  
                 # Calculate healthier option and update score improvement
                 healthier_option, healthier_price = healthier_alternatives.get(store, {}).get(product, ("No healthier option available", "N/A"))
-                improvement_score = 2  # Placeholder for improvement score (e.g., healthier option is 2 points better)
+ 
+                if healthier_option == "No healthier option available":
+                    improvement_score = 0  # No improvement score if no healthier option available
+                else:
+                    improvement_score = random.randint(1, 4)  # Random improvement score between 1 and 4
  
                 analysis_data.append([product, healthier_option, healthier_price, current_score, improvement_score])
  
@@ -262,13 +268,11 @@ if st.button("Analyze Cart and Suggest Healthier Options"):
             st.write(f"Current total health score: {total_current_score}")
             st.write(f"Potential improved health score after healthier choices: {total_current_score + total_improvement_score}")
  
-        # Set analysis complete flag to True after analysis
         st.session_state.analysis_complete = True
  
     else:
         st.error("Your cart is empty. Please add products.")
  
-# Display feedback section after analysis
 if st.session_state.analysis_complete:
     feedback = st.text_area("Please share your feedback on the product analysis or the healthier options provided:")
  
