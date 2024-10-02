@@ -2,7 +2,7 @@
 
 # Snacks and Dishes Information Web App
 
-This project consists of a **Flask API** that provides information about snacks and dishes from a CSV dataset, and a **Streamlit** web application to interact with the API and visualize the data.
+This project consists of an LLM integration that provides information about snacks and dishes from a CSV dataset, and a **Streamlit** web application to interact with the LLM.
 
 ## Table of Contents
 
@@ -39,30 +39,29 @@ The project allows users to filter snacks and dishes based on different categori
 ```bash
 git clone https://github.com/your-username/snacks-and-dishes-app.git
 cd snacks-and-dishes-app
+```
 
 ### 2. Create a Virtual Environment and Activate It
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-### 2. Create a Virtual Environment and Activate It
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
 ### 3. Install Required Dependencies
 ```bash
 pip install -r requirements.txt
+```
 
 ### 4. Add Your CSV Datasets
 Place your data in the root directory of the project.
 
 ## Running the project
-Streamlit App
+#### Streamlit App
 Open another terminal and navigate to the project directory.
 Run the Streamlit app:
 ```bash
 streamlit run streamlit_app.py
+```
 The Streamlit web app will open in your default web browser.
 
 ## Dataset
